@@ -1,0 +1,55 @@
+public class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        int[] result = {-1, -1};  // Default result if the target is not found
+
+        // Find the leftmost position (first occurrence) of the target
+        int left = findLeft(nums, target);
+        if (left == nums.length || nums[left] != target) {
+            return result;  // If the target isn't found, return [-1, -1]
+        }
+
+        // Find the rightmost position (last occurrence) of the target
+        int right = findRight(nums, target);
+
+        result[0] = left;
+        result[1] = right;
+        return result;
+    }
+
+    // Binary search to find the leftmost (first occurrence) index of target
+    private int findLeft(int[] nums, int target) {
+        int left = 0, right = nums.length - 1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return left;
+    }
+
+    // Binary search to find the rightmost (last occurrence) index of target
+    private int findRight(int[] nums, int target) {
+        int left = 0, right = nums.length - 1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] <= target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return right;
+    }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        int[] nums = {5, 7, 7, 8, 8, 10};
+        int target = 8;
+
+        int[] result = solution.searchRange(nums, target);
+        System.out.println("[" + result[0] + ", " + result[1] + "]");  // Output: [3, 4]
+    }
+}
